@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{9C65D5BD-68A4-4BF2-AF6F-91F0D37533DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C65D5BD-68A4-4BF2-AF6F-91F0D37533DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C65D5BD-68A4-4BF2-AF6F-91F0D37533DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C65D5BD-68A4-4BF2-AF6F-91F0D37533DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C65D5BD-68A4-4BF2-AF6F-91F0D37533DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B1F6D37-BB01-4EF5-9EAB-82F3FCA76E5C}
+	EndGlobalSection
+EndGlobal
