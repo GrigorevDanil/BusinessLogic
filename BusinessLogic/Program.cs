@@ -40,7 +40,6 @@ namespace BusinessLogic
                     services.AddScoped<IRepository<Resource>, ResourceRepository>();
                     services.AddScoped<IRepository<Shop>, ShopRepository>();
                     services.AddScoped<IRepository<Warehouse>, WarehouseRepository>();
-                    services.AddScoped<IRepository<Investment>, InvestmentRepository>();
                     services.AddScoped<IProductResourceRepository, ProductResourceRepository>();
                     services.AddScoped<IProductWarehouseRepository, ProductWarehouseRepository>();
                     services.AddScoped<IDistanceRepository, DistanceRepository>();

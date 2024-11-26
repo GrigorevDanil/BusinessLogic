@@ -18,10 +18,6 @@ namespace BusinessLogic.Configurations
 
             builder.Property(p => p.Profit)
                 .IsRequired();
-
-            builder.HasMany(e => e.Investments)
-                .WithOne()
-                .HasForeignKey(e => e.CompanyId);
         }
     }
 }

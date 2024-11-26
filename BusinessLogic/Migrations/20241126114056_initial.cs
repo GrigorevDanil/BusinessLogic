@@ -79,27 +79,6 @@ namespace BusinessLogic.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Investments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CompanyId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Amount = table.Column<float>(type: "REAL", nullable: false),
-                    Profit = table.Column<float>(type: "REAL", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Investments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Investments_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductResources",
                 columns: table => new
                 {
@@ -180,11 +159,6 @@ namespace BusinessLogic.Migrations
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Investments_CompanyId",
-                table: "Investments",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductResources_ResourceId",
                 table: "ProductResources",
                 column: "ResourceId");
@@ -199,10 +173,10 @@ namespace BusinessLogic.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Distances");
+                name: "Companies");
 
             migrationBuilder.DropTable(
-                name: "Investments");
+                name: "Distances");
 
             migrationBuilder.DropTable(
                 name: "ProductResources");
@@ -212,9 +186,6 @@ namespace BusinessLogic.Migrations
 
             migrationBuilder.DropTable(
                 name: "Shops");
-
-            migrationBuilder.DropTable(
-                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "Resources");

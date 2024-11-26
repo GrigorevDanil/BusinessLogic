@@ -18,7 +18,6 @@ namespace BusinessLogic.Presentation
         private BindingList<ProductResource> listProductResource = [];
         private BindingList<ProductWarehouse> listProductWarehouse = [];
         private BindingList<Distance> listDistance = [];
-        private BindingList<Investment> listInvestments = [];
 
         //Репозитории
         private readonly IRepository<Company> companyRepository;
@@ -26,7 +25,6 @@ namespace BusinessLogic.Presentation
         private readonly IRepository<Resource> resourceRepository;
         private readonly IRepository<Shop> shopRepository;
         private readonly IRepository<Warehouse> warehouseRepository;
-        private readonly IRepository<Investment> investmentRepository;
         private readonly IProductResourceRepository productResourceRepository;
         private readonly IProductWarehouseRepository productWarehouseRepository;
         private readonly IDistanceRepository distanceRepository;
@@ -34,14 +32,13 @@ namespace BusinessLogic.Presentation
         //Сервисы
         private readonly IUnitOfWork unitOfWork;
 
-        public MainForm(IRepository<Company> companyRepository, IRepository<Product> productRepository, IRepository<Resource> resourceRepository, IRepository<Shop> shopRepository, IRepository<Warehouse> warehouseRepository, IRepository<Investment> investmentRepository, IProductResourceRepository productResourceRepository, IProductWarehouseRepository productWarehouseRepository, IDistanceRepository distanceRepository, IUnitOfWork unitOfWork)
+        public MainForm(IRepository<Company> companyRepository, IRepository<Product> productRepository, IRepository<Resource> resourceRepository, IRepository<Shop> shopRepository, IRepository<Warehouse> warehouseRepository, IProductResourceRepository productResourceRepository, IProductWarehouseRepository productWarehouseRepository, IDistanceRepository distanceRepository, IUnitOfWork unitOfWork)
         {
             this.companyRepository = companyRepository;
             this.productRepository = productRepository;
             this.resourceRepository = resourceRepository;
             this.shopRepository = shopRepository;
             this.warehouseRepository = warehouseRepository;
-            this.investmentRepository = investmentRepository;
             this.productResourceRepository = productResourceRepository;
             this.productWarehouseRepository = productWarehouseRepository;
             this.distanceRepository = distanceRepository;
@@ -61,8 +58,7 @@ namespace BusinessLogic.Presentation
             {
                 var company = Company.Create(
                     dialog.title.Text,
-                    float.Parse(dialog.count.Text.Trim().Replace('.', ',')),
-                    []
+                    float.Parse(dialog.count.Text.Trim().Replace('.', ','))
                 );
 
                 if (company.IsFailure)
@@ -711,85 +707,6 @@ namespace BusinessLogic.Presentation
 
         #endregion
 
-        #region Investments
-
-        public async void AddInvestment()
-        {
-            var dialog = new InvestmentDialog()
-            {
-                Text = "Добавление инвестиции",
-            };
-
-            var companies = await companyRepository.GetAll();
-            dialog.companies.DataSource = companies.Value;
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var selectedCompany = dialog.companies.SelectedItem as Company ?? throw new InvalidOperationException("Компания не выбран");
-
-                var investment = Investment.Create(
-                    selectedCompany,
-                    float.Parse(dialog.amount.Text.Trim().Replace('.', ',')),
-                    float.Parse(dialog.profit.Text.Trim().Replace('.', ',')));
-
-                if (investment.IsFailure) throw new Exception(investment.Error);
-
-                await investmentRepository.Add(investment.Value);
-                await unitOfWork.SaveChanges();
-                listInvestments.Add(investment.Value);
-            }
-        }
-
-        public async void UpdateInvestment()
-        {
-            int selectedIndex = g_investment.SelectedRows[0].Index;
-            var investment = await investmentRepository.GetById(listInvestments[selectedIndex].Id);
-
-            if (investment.Value is null) throw new Exception("investment не найден");
-
-            var dialog = new InvestmentDialog
-            {
-                Text = "Редактирование инвестиции",
-                amount = { Text = investment.Value.Amount.ToString() },
-                profit = { Text = investment.Value.Profit.ToString() },
-            };
-
-            var companies = await companyRepository.GetAll();
-            dialog.companies.DataSource = companies.Value;
-            dialog.companies.SelectedItem = investment.Value.Company;
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var selectedCompanyId = (dialog.companies.SelectedItem as Company ?? throw new InvalidOperationException("Компания не выбран")).Id;
-
-                investment.Value.UpdateInfo(
-                    selectedCompanyId,
-                    float.Parse(dialog.amount.Text.Trim().Replace('.', ',')),
-                    float.Parse(dialog.profit.Text.Trim().Replace('.', ',')));
-
-                investmentRepository.Save(investment.Value);
-                await unitOfWork.SaveChanges();
-                listInvestments[selectedIndex] = investment.Value;
-            }
-        }
-
-        public async void DeleteInvestment()
-        {
-            if (InvokeDeleteDialog() == DialogResult.Yes)
-            {
-                int selectedIndex = g_investment.SelectedRows[0].Index;
-                var investment = await investmentRepository.GetById(listInvestments[selectedIndex].Id);
-
-                if (investment.Value is null) throw new Exception("investment не найден");
-
-                investmentRepository.Delete(investment.Value);
-                await unitOfWork.SaveChanges();
-                listInvestments.RemoveAt(selectedIndex);
-            }
-        }
-
-        #endregion
-
         #region Shared
 
         private DialogResult InvokeDeleteDialog() =>
@@ -804,7 +721,6 @@ namespace BusinessLogic.Presentation
                 case 2: AddProduct(); break;
                 case 3: AddResource(); break;
                 case 4: AddCompany(); break;
-                case 5: AddInvestment(); break;
             }
         }
 
@@ -817,7 +733,6 @@ namespace BusinessLogic.Presentation
                 case 2: UpdateProduct(); break;
                 case 3: UpdateResource(); break;
                 case 4: UpdateCompany(); break;
-                case 5: UpdateInvestment(); break;
             }
         }
 
@@ -830,7 +745,7 @@ namespace BusinessLogic.Presentation
                 case 2: DeleteProduct(); break;
                 case 3: DeleteResource(); break;
                 case 4: DeleteCompany(); break;
-                case 5: DeleteInvestment(); break;
+
             }
         }
 
@@ -886,15 +801,6 @@ namespace BusinessLogic.Presentation
             g_distance.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Склад", DataPropertyName = "WarehouseTitle" });
             g_distance.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Дистанция", DataPropertyName = "Length" });
             InvisibleColumns(g_distance, 2);
-
-            listInvestments = new BindingList<Investment>(investmentRepository.GetAll().Result.Value);
-            g_investment.AutoGenerateColumns = false;
-            g_investment.DataSource = listInvestments;
-            g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Компания", DataPropertyName = "CompanyTitle" });
-            g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Вклад", DataPropertyName = "Amount" });
-            g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Прибыль", DataPropertyName = "Profit" });
-            InvisibleColumns(g_investment, 3);
-
 
             void InvisibleColumns(DataGridView grid, int startIndex)
             {

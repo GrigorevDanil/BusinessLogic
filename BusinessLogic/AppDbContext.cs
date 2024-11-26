@@ -8,7 +8,6 @@ namespace BusinessLogic
     {
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Distance> Distances => Set<Distance>();
-        public DbSet<Investment> Investments => Set<Investment>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Resource> Resources => Set<Resource>();
         public DbSet<ProductResource> ProductResources => Set<ProductResource>();
@@ -39,7 +38,6 @@ namespace BusinessLogic
 
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new DistanceConfiguration());
-            modelBuilder.ApplyConfiguration(new InvestmentConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new ResourceConfiguration());
             modelBuilder.ApplyConfiguration(new ProductResourceConfiguration());

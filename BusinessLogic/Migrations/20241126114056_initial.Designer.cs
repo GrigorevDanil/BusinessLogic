@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessLogic.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241123221234_initial")]
+    [Migration("20241126114056_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -54,28 +54,6 @@ namespace BusinessLogic.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Distances", (string)null);
-                });
-
-            modelBuilder.Entity("BusinessLogic.Entities.Investment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Profit")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("Investments", (string)null);
                 });
 
             modelBuilder.Entity("BusinessLogic.Entities.Product", b =>
@@ -188,26 +166,21 @@ namespace BusinessLogic.Migrations
 
             modelBuilder.Entity("BusinessLogic.Entities.Distance", b =>
                 {
-                    b.HasOne("BusinessLogic.Entities.Shop", null)
-                        .WithMany()
+                    b.HasOne("BusinessLogic.Entities.Shop", "Shop")
+                        .WithMany("Distances")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessLogic.Entities.Warehouse", null)
-                        .WithMany()
+                    b.HasOne("BusinessLogic.Entities.Warehouse", "Warehouse")
+                        .WithMany("Distances")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("BusinessLogic.Entities.Investment", b =>
-                {
-                    b.HasOne("BusinessLogic.Entities.Company", null)
-                        .WithMany("Investments")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Shop");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("BusinessLogic.Entities.ProductResource", b =>
@@ -231,7 +204,7 @@ namespace BusinessLogic.Migrations
 
             modelBuilder.Entity("BusinessLogic.Entities.ProductWarehouse", b =>
                 {
-                    b.HasOne("BusinessLogic.Entities.Product", null)
+                    b.HasOne("BusinessLogic.Entities.Product", "Product")
                         .WithMany("ProductWarehouses")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -242,11 +215,8 @@ namespace BusinessLogic.Migrations
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("BusinessLogic.Entities.Company", b =>
-                {
-                    b.Navigation("Investments");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BusinessLogic.Entities.Product", b =>
@@ -261,8 +231,15 @@ namespace BusinessLogic.Migrations
                     b.Navigation("ProductResources");
                 });
 
+            modelBuilder.Entity("BusinessLogic.Entities.Shop", b =>
+                {
+                    b.Navigation("Distances");
+                });
+
             modelBuilder.Entity("BusinessLogic.Entities.Warehouse", b =>
                 {
+                    b.Navigation("Distances");
+
                     b.Navigation("ProductWarehouses");
                 });
 #pragma warning restore 612, 618
