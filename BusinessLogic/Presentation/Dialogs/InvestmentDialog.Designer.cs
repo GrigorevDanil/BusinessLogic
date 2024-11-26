@@ -33,6 +33,8 @@
             cancel = new Button();
             label1 = new Label();
             toolTip1 = new ToolTip(components);
+            amount = new TextBox();
+            label2 = new Label();
             companies = new ComboBox();
             profit = new TextBox();
             label3 = new Label();
@@ -42,7 +44,7 @@
             // 
             button.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             button.BackColor = Color.FromArgb(174, 252, 167);
-            button.Location = new Point(12, 203);
+            button.Location = new Point(12, 300);
             button.Name = "button";
             button.Size = new Size(267, 58);
             button.TabIndex = 2;
@@ -54,7 +56,7 @@
             // 
             cancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             cancel.BackColor = Color.FromArgb(255, 192, 192);
-            cancel.Location = new Point(328, 203);
+            cancel.Location = new Point(328, 300);
             cancel.Name = "cancel";
             cancel.Size = new Size(267, 58);
             cancel.TabIndex = 3;
@@ -79,6 +81,28 @@
             toolTip1.ToolTipIcon = ToolTipIcon.Info;
             toolTip1.ToolTipTitle = "Подсказка";
             // 
+            // amount
+            // 
+            amount.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            amount.Font = new Font("Consolas", 16F);
+            amount.Location = new Point(12, 121);
+            amount.MaxLength = 500;
+            amount.Name = "amount";
+            amount.PlaceholderText = "Введите вклад..";
+            amount.Size = new Size(334, 39);
+            amount.TabIndex = 1;
+            toolTip1.SetToolTip(amount, "Количество продукта, обязательное поле");
+            amount.KeyPress += int_Enter;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 91);
+            label2.Name = "label2";
+            label2.Size = new Size(90, 27);
+            label2.TabIndex = 5;
+            label2.Text = "Вклад*";
+            // 
             // companies
             // 
             companies.DisplayMember = "Title";
@@ -94,7 +118,7 @@
             // 
             profit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             profit.Font = new Font("Consolas", 16F);
-            profit.Location = new Point(12, 122);
+            profit.Location = new Point(12, 202);
             profit.MaxLength = 500;
             profit.Name = "profit";
             profit.PlaceholderText = "Введите прибыль..";
@@ -105,7 +129,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 92);
+            label3.Location = new Point(12, 172);
             label3.Name = "label3";
             label3.Size = new Size(116, 27);
             label3.TabIndex = 5;
@@ -115,10 +139,12 @@
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(607, 273);
+            ClientSize = new Size(607, 370);
             Controls.Add(companies);
             Controls.Add(label3);
+            Controls.Add(label2);
             Controls.Add(profit);
+            Controls.Add(amount);
             Controls.Add(label1);
             Controls.Add(cancel);
             Controls.Add(button);
@@ -137,6 +163,8 @@
         private Button cancel;
         private Label label1;
         private ToolTip toolTip1;
+        private Label label2;
+        public TextBox amount;
         public ComboBox companies;
         public TextBox profit;
         private Label label3;

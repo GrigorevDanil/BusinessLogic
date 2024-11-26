@@ -16,6 +16,9 @@ namespace BusinessLogic.Configurations
                 .IsRequired()
                 .HasMaxLength(Company.MAX_TITLE_LENGHT);
 
+            builder.Property(p => p.Profit)
+                .IsRequired();
+
             builder.HasMany(e => e.Investments)
                 .WithOne()
                 .HasForeignKey(e => e.CompanyId);

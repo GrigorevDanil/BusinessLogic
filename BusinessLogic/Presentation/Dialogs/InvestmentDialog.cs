@@ -23,9 +23,10 @@
         private void button_Click(object sender, EventArgs e)
         {
             if (companies.SelectedIndex < 0
-                || string.IsNullOrEmpty(profit.Text) || !int.TryParse(profit.Text, out int val))
+                || string.IsNullOrEmpty(amount.Text) || !int.TryParse(amount.Text, out int val)
+                || string.IsNullOrEmpty(profit.Text) || !int.TryParse(profit.Text, out int val1))
             {
-                MessageBox.Show("Не все значения корректны"); ;
+                MessageBox.Show("Не все значения корректны");
                 return;
             }
 

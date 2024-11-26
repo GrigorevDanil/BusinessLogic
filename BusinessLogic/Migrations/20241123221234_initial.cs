@@ -16,7 +16,8 @@ namespace BusinessLogic.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Profit = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,6 +85,7 @@ namespace BusinessLogic.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CompanyId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Amount = table.Column<float>(type: "REAL", nullable: false),
                     Profit = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>

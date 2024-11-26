@@ -13,26 +13,29 @@ namespace BusinessLogic.Entities
 
         }
 
-        public Investment(Company company, float profit)
+        public Investment(Company company, float amount, float profit)
         {
             CompanyId = company.Id;
+            Amount = amount;
             Profit = profit;
         }
 
-        public static Result<Investment> Create(Company company, float profit)
+        public static Result<Investment> Create(Company company, float amount, float profit)
         {
-            return Result.Success(new Investment(company, profit));
+            return Result.Success(new Investment(company, amount, profit));
         }
 
         public int CompanyId { get; private set; }
         public virtual Company? Company { get; }
+        public float Amount { get; private set; }
         public float Profit { get; private set; }
         [NotMapped]
         public string CompanyTitle => Company!.Title;
 
-        public void UpdateInfo(int companyId, float profit)
+        public void UpdateInfo(int companyId, float amount, float profit)
         {
             CompanyId = companyId;
+            Amount = amount;
             Profit = profit;
         }
     }
