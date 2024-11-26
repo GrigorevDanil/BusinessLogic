@@ -911,7 +911,7 @@ namespace BusinessLogic.Presentation
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-
+            new UpdateEquipmentDialog().ShowDialog();
         }
 
         #endregion
