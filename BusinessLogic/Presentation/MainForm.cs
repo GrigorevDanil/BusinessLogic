@@ -53,7 +53,7 @@ namespace BusinessLogic.Presentation
 
         public async void AddCompany()
         {
-            var dialog = new ProductDialog()
+            var dialog = new CompanyDialog()
             {
                 Text = "Добавление компании"
             };
@@ -61,7 +61,6 @@ namespace BusinessLogic.Presentation
             {
                 var company = Company.Create(
                     dialog.title.Text,
-                    float.Parse(dialog.count.Text.Trim().Replace('.', ',')),
                     []
                 );
 
@@ -85,15 +84,13 @@ namespace BusinessLogic.Presentation
             var dialog = new CompanyDialog
             {
                 Text = "Редактирование компании",
-                title = { Text = company.Value.Title },
-                profit = { Text = company.Value.Profit.ToString() }
+                title = { Text = company.Value.Title }
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 company.Value.UpdateInfo(
-                    dialog.title.Text,
-                    float.Parse(dialog.profit.Text.Trim().Replace('.', ',')));
+                    dialog.title.Text);
 
                 companyRepository.Save(company.Value);
                 await unitOfWork.SaveChanges();
@@ -729,7 +726,6 @@ namespace BusinessLogic.Presentation
 
                 var investment = Investment.Create(
                     selectedCompany,
-                    float.Parse(dialog.amount.Text.Trim().Replace('.', ',')),
                     float.Parse(dialog.profit.Text.Trim().Replace('.', ',')));
 
                 if (investment.IsFailure) throw new Exception(investment.Error);
@@ -750,7 +746,6 @@ namespace BusinessLogic.Presentation
             var dialog = new InvestmentDialog
             {
                 Text = "Редактирование инвестиции",
-                amount = { Text = investment.Value.Amount.ToString() },
                 profit = { Text = investment.Value.Profit.ToString() },
             };
 
@@ -764,7 +759,6 @@ namespace BusinessLogic.Presentation
 
                 investment.Value.UpdateInfo(
                     selectedCompanyId,
-                    float.Parse(dialog.amount.Text.Trim().Replace('.', ',')),
                     float.Parse(dialog.profit.Text.Trim().Replace('.', ',')));
 
                 investmentRepository.Save(investment.Value);
@@ -865,8 +859,7 @@ namespace BusinessLogic.Presentation
             listCompanies = new BindingList<Company>(companyRepository.GetAll().Result.Value);
             g_company.DataSource = listCompanies;
             g_company.Columns[0].HeaderText = "Название";
-            g_company.Columns[1].HeaderText = "Прибыль";
-            InvisibleColumns(g_company, 2);
+            InvisibleColumns(g_company, 1);
 
 
             g_product_resource.AutoGenerateColumns = false;
@@ -891,9 +884,8 @@ namespace BusinessLogic.Presentation
             g_investment.AutoGenerateColumns = false;
             g_investment.DataSource = listInvestments;
             g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Компания", DataPropertyName = "CompanyTitle" });
-            g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Вклад", DataPropertyName = "Amount" });
             g_investment.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Прибыль", DataPropertyName = "Profit" });
-            InvisibleColumns(g_investment, 3);
+            InvisibleColumns(g_investment, 2);
 
 
             void InvisibleColumns(DataGridView grid, int startIndex)
