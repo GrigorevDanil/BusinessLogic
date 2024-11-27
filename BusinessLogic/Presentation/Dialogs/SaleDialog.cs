@@ -1,10 +1,10 @@
-﻿using BusinessLogic.Entities;
+﻿using System.Globalization;
 
 namespace BusinessLogic.Presentation.Dialogs
 {
-    public partial class ShopDialog : Form
+    public partial class SaleDialog : Form
     {
-        public ShopDialog()
+        public SaleDialog()
         {
             InitializeComponent();
         }
@@ -13,10 +13,9 @@ namespace BusinessLogic.Presentation.Dialogs
         {
             DialogResult = DialogResult.Cancel;
         }
-
-        private void button_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(title.Text) || title.Text.Length > Warehouse.MAX_TITLE_LENGHT)
+		private void button_Click(object sender, EventArgs e)
+		{
+            if (!double.TryParse(value.Text.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double _))
             {
                 MessageBox.Show("Не все значения корректны");
                 return;

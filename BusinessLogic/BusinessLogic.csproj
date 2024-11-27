@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="3.2.0" />
+    <PackageReference Include="HIC.System.Windows.Forms.DataVisualization" Version="1.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +23,12 @@
 
   <ItemGroup>
     <Compile Update="Presentation\Dialogs\CompanyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Presentation\Dialogs\SalesForecast.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Presentation\Dialogs\SaleDialog.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

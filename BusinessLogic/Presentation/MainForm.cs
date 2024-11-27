@@ -2,7 +2,9 @@
 using BusinessLogic.Extensions;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Presentation.Dialogs;
+using BusinessLogic.Repositories;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace BusinessLogic.Presentation
 {
@@ -18,6 +20,7 @@ namespace BusinessLogic.Presentation
 		private BindingList<ProductWarehouse> listProductWarehouse = [];
 		private BindingList<Distance> listDistance = [];
 		private BindingList<Investment> listInvestments = [];
+		private BindingList<Sale> listSales = [];
 
 		//Репозитории
 		private readonly IRepository<Company> companyRepository;
@@ -26,6 +29,7 @@ namespace BusinessLogic.Presentation
 		private readonly IRepository<Shop> shopRepository;
 		private readonly IRepository<Warehouse> warehouseRepository;
 		private readonly IRepository<Investment> investmentRepository;
+		private readonly IRepository<Sale> saleRepository;
 		private readonly IProductResourceRepository productResourceRepository;
 		private readonly IProductWarehouseRepository productWarehouseRepository;
 		private readonly IDistanceRepository distanceRepository;
@@ -33,13 +37,14 @@ namespace BusinessLogic.Presentation
 		//Сервисы
 		private readonly IUnitOfWork unitOfWork;
 
-		public MainForm(IRepository<Company> companyRepository, IRepository<Product> productRepository, IRepository<Resource> resourceRepository, IRepository<Shop> shopRepository, IRepository<Warehouse> warehouseRepository, IRepository<Investment> investmentRepository, IProductResourceRepository productResourceRepository, IProductWarehouseRepository productWarehouseRepository, IDistanceRepository distanceRepository, IUnitOfWork unitOfWork) {
+		public MainForm(IRepository<Company> companyRepository, IRepository<Product> productRepository, IRepository<Resource> resourceRepository, IRepository<Shop> shopRepository, IRepository<Warehouse> warehouseRepository, IRepository<Investment> investmentRepository, IRepository<Sale> saleRepository, IProductResourceRepository productResourceRepository, IProductWarehouseRepository productWarehouseRepository, IDistanceRepository distanceRepository, IUnitOfWork unitOfWork) {
 			this.companyRepository = companyRepository;
 			this.productRepository = productRepository;
 			this.resourceRepository = resourceRepository;
 			this.shopRepository = shopRepository;
 			this.warehouseRepository = warehouseRepository;
 			this.investmentRepository = investmentRepository;
+			this.saleRepository = saleRepository;
 			this.productResourceRepository = productResourceRepository;
 			this.productWarehouseRepository = productWarehouseRepository;
 			this.distanceRepository = distanceRepository;
@@ -471,7 +476,7 @@ namespace BusinessLogic.Presentation
 			if (shop.Value is null)
 				throw new Exception("shop не найден");
 
-			var dialog = new WarehouseDialog {
+			var dialog = new ShopDialog {
 				Text = "Редактирование магазина",
 				title = { Text = shop.Value.Title },
 			};
@@ -743,6 +748,63 @@ namespace BusinessLogic.Presentation
 
 		#endregion
 
+		#region Sales
+
+		public async void AddSale() {
+			var dialog = new SaleDialog() {
+				Text = "Добавление продажи",
+			};
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				var sale = Sale.Create(double.Parse(dialog.value.Text.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture), dialog.date.Checked ? DateOnly.FromDateTime(dialog.date.Value) : DateOnly.FromDateTime(DateTime.Now));
+
+				if (sale.IsFailure)
+					throw new Exception(sale.Error);
+
+				listSales.RaiseListChangedEvents = true;
+				await saleRepository.Add(sale.Value);
+				await unitOfWork.SaveChanges();
+				listSales.Add(sale.Value);
+			}
+		}
+
+		public async void UpdateSale() {
+			int selectedIndex = g_sale.SelectedRows[0].Index;
+			var sale = await saleRepository.GetById(listSales[selectedIndex].Id);
+
+			if (sale.Value is null)
+				throw new Exception("sale не найден");
+
+			var dialog = new SaleDialog {
+				Text = "Редактирование продажи",
+				value = { Text = sale.Value.Value.ToString() },
+				date = { Checked = true, Value = sale.Value.Date.ToDateTime(TimeOnly.MinValue) }
+			};
+
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				sale.Value.UpdateInfo(double.Parse(dialog.value.Text.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture), dialog.date.Checked ? DateOnly.FromDateTime(dialog.date.Value) : DateOnly.FromDateTime(DateTime.Now));
+
+				saleRepository.Save(sale.Value);
+				await unitOfWork.SaveChanges();
+				listSales[selectedIndex] = sale.Value;
+			}
+		}
+
+		public async void DeleteSale() {
+			if (InvokeDeleteDialog() == DialogResult.Yes) {
+				int selectedIndex = g_sale.SelectedRows[0].Index;
+				var sale = await saleRepository.GetById(listSales[selectedIndex].Id);
+
+				if (sale.Value is null)
+					throw new Exception("shop не найден");
+
+				saleRepository.Delete(sale.Value);
+				await unitOfWork.SaveChanges();
+				listSales.RemoveAt(selectedIndex);
+			}
+		}
+
+		#endregion
+
 		#region Shared
 
 		private DialogResult InvokeDeleteDialog() =>
@@ -768,10 +830,20 @@ namespace BusinessLogic.Presentation
 				case 5:
 					AddInvestment();
 					break;
+				case 6:
+					AddSale();
+					break;
 			}
 		}
 
 		private void b_edit_Click(object sender, EventArgs e) {
+			var obj = mainTabControl.SelectedTab.Controls[0];
+
+			if ((obj is DataGridView && (obj as DataGridView).SelectedRows.Count == 0) || (obj is TableLayoutPanel && (obj.Controls[0] as DataGridView).SelectedRows.Count == 0)) {
+				MessageBox.Show("Выберите запись!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			switch (mainTabControl.SelectedIndex) {
 				case 0:
 					UpdateWarehouse();
@@ -791,10 +863,20 @@ namespace BusinessLogic.Presentation
 				case 5:
 					UpdateInvestment();
 					break;
+				case 6:
+					UpdateSale();
+					break;
 			}
 		}
 
 		private void b_delete_Click(object sender, EventArgs e) {
+			var obj = mainTabControl.SelectedTab.Controls[0];
+
+			if ((obj is DataGridView && (obj as DataGridView).SelectedRows.Count == 0) || (obj is TableLayoutPanel && (obj.Controls[0] as DataGridView).SelectedRows.Count == 0)) {
+				MessageBox.Show("Выберите запись!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			switch (mainTabControl.SelectedIndex) {
 				case 0:
 					DeleteWarehouse();
@@ -813,6 +895,9 @@ namespace BusinessLogic.Presentation
 					break;
 				case 5:
 					DeleteInvestment();
+					break;
+				case 6:
+					DeleteSale();
 					break;
 			}
 		}
@@ -848,6 +933,12 @@ namespace BusinessLogic.Presentation
 			g_company.Columns[0].HeaderText = "Название";
 			g_company.Columns[1].HeaderText = "Прибыль";
 			InvisibleColumns(g_company, 2);
+
+			listSales = new BindingList<Sale>(saleRepository.GetAll().Result.Value);
+			g_sale.DataSource = listSales;
+			g_sale.Columns[0].HeaderText = "Объём продаж в рублях";
+			g_sale.Columns[1].HeaderText = "Дата";
+			InvisibleColumns(g_sale, 2);
 
 
 			g_product_resource.AutoGenerateColumns = false;
@@ -895,6 +986,17 @@ namespace BusinessLogic.Presentation
 
 		private void toolStripMenuItem4_Click(object sender, EventArgs e) {
 			new CashDesks(shopRepository.GetAll().Result.Value).ShowDialog();
+		}
+		
+		private void прогнозПродажToolStripMenuItem_Click(object sender, EventArgs e) {
+			var sales = saleRepository.GetAll().Result.Value;
+
+			if (sales == null || sales.Count < 3) {
+				MessageBox.Show("У вас должно быть 3 или более записей продаж", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			new SalesForecast(sales).ShowDialog();
 		}
 
 		#endregion

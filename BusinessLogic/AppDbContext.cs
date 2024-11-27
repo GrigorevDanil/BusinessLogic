@@ -15,8 +15,9 @@ namespace BusinessLogic
         public DbSet<ProductWarehouse> ProductWarehouses => Set<ProductWarehouse>();
         public DbSet<Shop> Shops => Set<Shop>();
         public DbSet<Warehouse> Warehouses => Set<Warehouse>();
+		public DbSet<Sale> Sales => Set<Sale>();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -46,7 +47,8 @@ namespace BusinessLogic
             modelBuilder.ApplyConfiguration(new ProductWarehouseConfiguration());
             modelBuilder.ApplyConfiguration(new ShopConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
-        }
+			modelBuilder.ApplyConfiguration(new SaleConfiguration());
+		}
 
     }
 }

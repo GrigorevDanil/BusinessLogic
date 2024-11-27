@@ -41,12 +41,13 @@ namespace BusinessLogic
                     services.AddScoped<IRepository<Shop>, ShopRepository>();
                     services.AddScoped<IRepository<Warehouse>, WarehouseRepository>();
                     services.AddScoped<IRepository<Investment>, InvestmentRepository>();
+					services.AddScoped<IRepository<Sale>, SaleRepository>();
                     services.AddScoped<IProductResourceRepository, ProductResourceRepository>();
                     services.AddScoped<IProductWarehouseRepository, ProductWarehouseRepository>();
                     services.AddScoped<IDistanceRepository, DistanceRepository>();
 
-                    //Forms
-                    services.AddTransient<MainForm>();
+					//Forms
+					services.AddTransient<MainForm>();
                 });
         }
     }

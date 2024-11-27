@@ -31,8 +31,8 @@
 			mainTabControl = new TabControl();
 			warehouses = new TabPage();
 			tableLayoutPanel2 = new TableLayoutPanel();
-			g_product_warehouse = new DataGridView();
 			g_warehouse = new DataGridView();
+			g_product_warehouse = new DataGridView();
 			panel2 = new Panel();
 			p_delete_pw = new Button();
 			b_update_pw = new Button();
@@ -59,6 +59,8 @@
 			g_company = new DataGridView();
 			investments = new TabPage();
 			g_investment = new DataGridView();
+			sales = new TabPage();
+			g_sale = new DataGridView();
 			b_add = new Button();
 			b_edit = new Button();
 			b_delete = new Button();
@@ -68,12 +70,13 @@
 			toolStripMenuItem2 = new ToolStripMenuItem();
 			toolStripMenuItem3 = new ToolStripMenuItem();
 			toolStripMenuItem4 = new ToolStripMenuItem();
+			прогнозПродажToolStripMenuItem = new ToolStripMenuItem();
 			toolTip1 = new ToolTip(components);
 			mainTabControl.SuspendLayout();
 			warehouses.SuspendLayout();
 			tableLayoutPanel2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)g_product_warehouse).BeginInit();
 			((System.ComponentModel.ISupportInitialize)g_warehouse).BeginInit();
+			((System.ComponentModel.ISupportInitialize)g_product_warehouse).BeginInit();
 			panel2.SuspendLayout();
 			shops.SuspendLayout();
 			tableLayoutPanel3.SuspendLayout();
@@ -91,6 +94,8 @@
 			((System.ComponentModel.ISupportInitialize)g_company).BeginInit();
 			investments.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)g_investment).BeginInit();
+			sales.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)g_sale).BeginInit();
 			menu.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -102,6 +107,7 @@
 			mainTabControl.Controls.Add(resourses);
 			mainTabControl.Controls.Add(companies);
 			mainTabControl.Controls.Add(investments);
+			mainTabControl.Controls.Add(sales);
 			mainTabControl.Location = new Point(12, 38);
 			mainTabControl.Name = "mainTabControl";
 			mainTabControl.SelectedIndex = 0;
@@ -124,8 +130,8 @@
 			tableLayoutPanel2.ColumnCount = 2;
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-			tableLayoutPanel2.Controls.Add(g_product_warehouse, 0, 0);
 			tableLayoutPanel2.Controls.Add(g_warehouse, 0, 0);
+			tableLayoutPanel2.Controls.Add(g_product_warehouse, 1, 0);
 			tableLayoutPanel2.Controls.Add(panel2, 1, 1);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new Point(3, 3);
@@ -136,31 +142,6 @@
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
 			tableLayoutPanel2.Size = new Size(1448, 801);
 			tableLayoutPanel2.TabIndex = 0;
-			// 
-			// g_product_warehouse
-			// 
-			g_product_warehouse.AllowUserToAddRows = false;
-			g_product_warehouse.AllowUserToDeleteRows = false;
-			g_product_warehouse.AllowUserToResizeRows = false;
-			g_product_warehouse.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			g_product_warehouse.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-			g_product_warehouse.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-			g_product_warehouse.BackgroundColor = Color.White;
-			g_product_warehouse.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			g_product_warehouse.GridColor = Color.White;
-			g_product_warehouse.Location = new Point(727, 3);
-			g_product_warehouse.MultiSelect = false;
-			g_product_warehouse.Name = "g_product_warehouse";
-			g_product_warehouse.ReadOnly = true;
-			g_product_warehouse.RowHeadersVisible = false;
-			g_product_warehouse.RowHeadersWidth = 51;
-			g_product_warehouse.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			g_product_warehouse.ShowCellErrors = false;
-			g_product_warehouse.ShowCellToolTips = false;
-			g_product_warehouse.ShowEditingIcon = false;
-			g_product_warehouse.ShowRowErrors = false;
-			g_product_warehouse.Size = new Size(718, 715);
-			g_product_warehouse.TabIndex = 2;
 			// 
 			// g_warehouse
 			// 
@@ -188,6 +169,31 @@
 			g_warehouse.Size = new Size(718, 795);
 			g_warehouse.TabIndex = 1;
 			g_warehouse.SelectionChanged += g_warehouse_SelectionChanged;
+			// 
+			// g_product_warehouse
+			// 
+			g_product_warehouse.AllowUserToAddRows = false;
+			g_product_warehouse.AllowUserToDeleteRows = false;
+			g_product_warehouse.AllowUserToResizeRows = false;
+			g_product_warehouse.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			g_product_warehouse.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			g_product_warehouse.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+			g_product_warehouse.BackgroundColor = Color.White;
+			g_product_warehouse.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			g_product_warehouse.GridColor = Color.White;
+			g_product_warehouse.Location = new Point(727, 3);
+			g_product_warehouse.MultiSelect = false;
+			g_product_warehouse.Name = "g_product_warehouse";
+			g_product_warehouse.ReadOnly = true;
+			g_product_warehouse.RowHeadersVisible = false;
+			g_product_warehouse.RowHeadersWidth = 51;
+			g_product_warehouse.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			g_product_warehouse.ShowCellErrors = false;
+			g_product_warehouse.ShowCellToolTips = false;
+			g_product_warehouse.ShowEditingIcon = false;
+			g_product_warehouse.ShowRowErrors = false;
+			g_product_warehouse.Size = new Size(718, 715);
+			g_product_warehouse.TabIndex = 2;
 			// 
 			// panel2
 			// 
@@ -239,10 +245,10 @@
 			// shops
 			// 
 			shops.Controls.Add(tableLayoutPanel3);
-			shops.Location = new Point(4, 29);
+			shops.Location = new Point(4, 36);
 			shops.Name = "shops";
 			shops.Padding = new Padding(3);
-			shops.Size = new Size(1454, 814);
+			shops.Size = new Size(1454, 807);
 			shops.TabIndex = 1;
 			shops.Text = "Магазины";
 			shops.UseVisualStyleBackColor = true;
@@ -261,7 +267,7 @@
 			tableLayoutPanel3.RowCount = 2;
 			tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-			tableLayoutPanel3.Size = new Size(1448, 808);
+			tableLayoutPanel3.Size = new Size(1448, 801);
 			tableLayoutPanel3.TabIndex = 0;
 			// 
 			// g_shop
@@ -287,7 +293,7 @@
 			g_shop.ShowCellToolTips = false;
 			g_shop.ShowEditingIcon = false;
 			g_shop.ShowRowErrors = false;
-			g_shop.Size = new Size(718, 802);
+			g_shop.Size = new Size(718, 795);
 			g_shop.TabIndex = 2;
 			g_shop.SelectionChanged += g_shop_SelectionChanged;
 			// 
@@ -313,7 +319,7 @@
 			g_distance.ShowCellToolTips = false;
 			g_distance.ShowEditingIcon = false;
 			g_distance.ShowRowErrors = false;
-			g_distance.Size = new Size(718, 722);
+			g_distance.Size = new Size(718, 715);
 			g_distance.TabIndex = 3;
 			// 
 			// panel3
@@ -322,7 +328,7 @@
 			panel3.Controls.Add(b_update_d);
 			panel3.Controls.Add(b_add_d);
 			panel3.Dock = DockStyle.Fill;
-			panel3.Location = new Point(727, 731);
+			panel3.Location = new Point(727, 724);
 			panel3.Name = "panel3";
 			panel3.Size = new Size(718, 74);
 			panel3.TabIndex = 4;
@@ -366,12 +372,12 @@
 			// products
 			// 
 			products.Controls.Add(tableLayoutPanel1);
-			products.Location = new Point(4, 29);
+			products.Location = new Point(4, 36);
 			products.Name = "products";
 			products.Padding = new Padding(3);
-			products.Size = new Size(1454, 814);
+			products.Size = new Size(1454, 807);
 			products.TabIndex = 3;
-			products.Text = "Продукты";
+			products.Text = "Товары";
 			products.UseVisualStyleBackColor = true;
 			// 
 			// tableLayoutPanel1
@@ -388,7 +394,7 @@
 			tableLayoutPanel1.RowCount = 2;
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-			tableLayoutPanel1.Size = new Size(1448, 808);
+			tableLayoutPanel1.Size = new Size(1448, 801);
 			tableLayoutPanel1.TabIndex = 0;
 			// 
 			// g_product
@@ -414,7 +420,7 @@
 			g_product.ShowCellToolTips = false;
 			g_product.ShowEditingIcon = false;
 			g_product.ShowRowErrors = false;
-			g_product.Size = new Size(718, 802);
+			g_product.Size = new Size(718, 795);
 			g_product.TabIndex = 3;
 			g_product.SelectionChanged += g_product_SelectionChanged;
 			// 
@@ -440,7 +446,7 @@
 			g_product_resource.ShowCellToolTips = false;
 			g_product_resource.ShowEditingIcon = false;
 			g_product_resource.ShowRowErrors = false;
-			g_product_resource.Size = new Size(718, 722);
+			g_product_resource.Size = new Size(718, 715);
 			g_product_resource.TabIndex = 3;
 			// 
 			// panel1
@@ -449,7 +455,7 @@
 			panel1.Controls.Add(b_update_pr);
 			panel1.Controls.Add(b_add_pr);
 			panel1.Dock = DockStyle.Fill;
-			panel1.Location = new Point(727, 731);
+			panel1.Location = new Point(727, 724);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(718, 74);
 			panel1.TabIndex = 4;
@@ -493,10 +499,10 @@
 			// resourses
 			// 
 			resourses.Controls.Add(g_resourse);
-			resourses.Location = new Point(4, 29);
+			resourses.Location = new Point(4, 36);
 			resourses.Name = "resourses";
 			resourses.Padding = new Padding(3);
-			resourses.Size = new Size(1454, 814);
+			resourses.Size = new Size(1454, 807);
 			resourses.TabIndex = 4;
 			resourses.Text = "Ресурсы";
 			resourses.UseVisualStyleBackColor = true;
@@ -523,15 +529,15 @@
 			g_resourse.ShowCellToolTips = false;
 			g_resourse.ShowEditingIcon = false;
 			g_resourse.ShowRowErrors = false;
-			g_resourse.Size = new Size(1448, 808);
+			g_resourse.Size = new Size(1448, 801);
 			g_resourse.TabIndex = 4;
 			// 
 			// companies
 			// 
 			companies.Controls.Add(g_company);
-			companies.Location = new Point(4, 29);
+			companies.Location = new Point(4, 36);
 			companies.Name = "companies";
-			companies.Size = new Size(1454, 814);
+			companies.Size = new Size(1454, 807);
 			companies.TabIndex = 5;
 			companies.Text = "Компании";
 			companies.UseVisualStyleBackColor = true;
@@ -558,15 +564,15 @@
 			g_company.ShowCellToolTips = false;
 			g_company.ShowEditingIcon = false;
 			g_company.ShowRowErrors = false;
-			g_company.Size = new Size(1454, 814);
+			g_company.Size = new Size(1454, 807);
 			g_company.TabIndex = 5;
 			// 
 			// investments
 			// 
 			investments.Controls.Add(g_investment);
-			investments.Location = new Point(4, 29);
+			investments.Location = new Point(4, 36);
 			investments.Name = "investments";
-			investments.Size = new Size(1454, 814);
+			investments.Size = new Size(1454, 807);
 			investments.TabIndex = 6;
 			investments.Text = "Инвестиции";
 			investments.UseVisualStyleBackColor = true;
@@ -593,8 +599,44 @@
 			g_investment.ShowCellToolTips = false;
 			g_investment.ShowEditingIcon = false;
 			g_investment.ShowRowErrors = false;
-			g_investment.Size = new Size(1454, 814);
+			g_investment.Size = new Size(1454, 807);
 			g_investment.TabIndex = 6;
+			// 
+			// sales
+			// 
+			sales.Controls.Add(g_sale);
+			sales.Location = new Point(4, 36);
+			sales.Name = "sales";
+			sales.Padding = new Padding(3);
+			sales.Size = new Size(1454, 807);
+			sales.TabIndex = 7;
+			sales.Text = "Продажи";
+			sales.UseVisualStyleBackColor = true;
+			// 
+			// g_sale
+			// 
+			g_sale.AllowUserToAddRows = false;
+			g_sale.AllowUserToDeleteRows = false;
+			g_sale.AllowUserToResizeRows = false;
+			g_sale.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			g_sale.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+			g_sale.BackgroundColor = Color.White;
+			g_sale.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			g_sale.Dock = DockStyle.Fill;
+			g_sale.GridColor = Color.White;
+			g_sale.Location = new Point(3, 3);
+			g_sale.MultiSelect = false;
+			g_sale.Name = "g_sale";
+			g_sale.ReadOnly = true;
+			g_sale.RowHeadersVisible = false;
+			g_sale.RowHeadersWidth = 51;
+			g_sale.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			g_sale.ShowCellErrors = false;
+			g_sale.ShowCellToolTips = false;
+			g_sale.ShowEditingIcon = false;
+			g_sale.ShowRowErrors = false;
+			g_sale.Size = new Size(1448, 801);
+			g_sale.TabIndex = 5;
 			// 
 			// b_add
 			// 
@@ -656,7 +698,7 @@
 			// 
 			// toolStripMenuItem1
 			// 
-			toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4 });
+			toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4, прогнозПродажToolStripMenuItem });
 			toolStripMenuItem1.Font = new Font("Consolas", 13.8F);
 			toolStripMenuItem1.Name = "toolStripMenuItem1";
 			toolStripMenuItem1.Size = new Size(208, 31);
@@ -681,6 +723,13 @@
 			toolStripMenuItem4.Size = new Size(397, 32);
 			toolStripMenuItem4.Text = "Рассчёт кол-ва касс";
 			toolStripMenuItem4.Click += toolStripMenuItem4_Click;
+			// 
+			// прогнозПродажToolStripMenuItem
+			// 
+			прогнозПродажToolStripMenuItem.Name = "прогнозПродажToolStripMenuItem";
+			прогнозПродажToolStripMenuItem.Size = new Size(397, 32);
+			прогнозПродажToolStripMenuItem.Text = "Прогноз продаж";
+			прогнозПродажToolStripMenuItem.Click += прогнозПродажToolStripMenuItem_Click;
 			// 
 			// toolTip1
 			// 
@@ -712,8 +761,8 @@
 			mainTabControl.ResumeLayout(false);
 			warehouses.ResumeLayout(false);
 			tableLayoutPanel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)g_product_warehouse).EndInit();
 			((System.ComponentModel.ISupportInitialize)g_warehouse).EndInit();
+			((System.ComponentModel.ISupportInitialize)g_product_warehouse).EndInit();
 			panel2.ResumeLayout(false);
 			shops.ResumeLayout(false);
 			tableLayoutPanel3.ResumeLayout(false);
@@ -731,6 +780,8 @@
 			((System.ComponentModel.ISupportInitialize)g_company).EndInit();
 			investments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)g_investment).EndInit();
+			sales.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)g_sale).EndInit();
 			menu.ResumeLayout(false);
 			menu.PerformLayout();
 			ResumeLayout(false);
@@ -764,8 +815,8 @@
         private Button b_update_pr;
         private Button b_add_pr;
         private TableLayoutPanel tableLayoutPanel2;
-        private DataGridView g_product_warehouse;
         private DataGridView g_warehouse;
+        private DataGridView g_product_warehouse;
         private DataGridView g_company;
         private Panel panel2;
         private Button p_delete_pw;
@@ -780,5 +831,8 @@
         private Button b_add_d;
         private TabPage investments;
         private DataGridView g_investment;
-    }
+		private TabPage sales;
+		private DataGridView g_sale;
+		private ToolStripMenuItem прогнозПродажToolStripMenuItem;
+	}
 }
